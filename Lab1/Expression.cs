@@ -116,15 +116,15 @@ namespace Lab1
                             break;
                         case "log":
 
-                            if (b < 0)
+                            if (b <= 0)
                             {
                                 Console.WriteLine("При х < 0 функція не вищначеннаo");
                                 Continue = false;
-                                break;
+                                return 0;
                             }
 
                             a = Convert.ToDouble(stack.Pop());
-                            stack.Push($"{Math.Log(a, b)}");
+                            stack.Push($"{Math.Log(b,a)}");
                             break;
                         case "exp":
                             stack.Push($"{Math.Exp(b)}");
@@ -149,7 +149,7 @@ namespace Lab1
                     break;
             }
 
-            string result = "0.0";
+            string result = "0,0";
 
             if (stack.Count > 0)
                 result = stack.Pop();

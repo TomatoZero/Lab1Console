@@ -21,9 +21,9 @@ namespace Lab1
 
         }
         
-        private List<(double x1, double x2)> SeparationOfRoots(double x1, double x2, double epsilont = 0.01) 
+        private List<(double x1, double x2, bool isRoot)> SeparationOfRoots(double x1, double x2, double epsilont = 0.01, int numberOfInterval = 5) 
         {
-            List<(double x1, double x2)> intervals = new List<(double x1, double x2)>();
+            List<(double x1, double x2, bool isRoot)> intervals = new List<(double x1, double x2, bool isRoot)>();
 
             if(Math.Abs(x1 - x2) < epsilont) 
             {
@@ -31,10 +31,12 @@ namespace Lab1
             }
 
             double distance = Math.Sqrt(Math.Pow(x1 - x2, 2));
-            double minDistance = distance / 10;
+            double minDistance = distance / numberOfInterval;
 
-
-
+            for(int i = 0; i < numberOfInterval; i++) 
+            {
+                double x = x1 + minDistance;
+            }
 
             return intervals;
         }

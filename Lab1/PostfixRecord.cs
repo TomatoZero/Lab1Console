@@ -59,12 +59,13 @@ namespace Lab1
             InPostfixRecord = new List<string>();
             Stack<string> stack = new Stack<string>();
 
-            string previous;
+            string previous = "";
+            bool unaryMinus = false;
             for (int i = 0; i < infixRecord.Length; i++)
             {
                 double num;
                 bool isNum;
-
+                
                 //випадок коли в рівнянні одне невідоме
                 if(infixRecord[i] == 'x') 
                 {
@@ -73,6 +74,12 @@ namespace Lab1
                 else 
                 {
                     isNum = double.TryParse(Convert.ToString(infixRecord[i]), out num);
+                }
+
+                if(!isNum && unaryMinus) 
+                {
+                    Console.WriteLine("Помилка запису");
+                    return new List<string>();
                 }
 
                 if (isNum)
@@ -101,24 +108,18 @@ namespace Lab1
                         }
                     }
 
-                    //перевірка на те чи є число відємним
-                    if (stack.Count > 0 && stack.Peek() == "-")
+                    if (unaryMinus)
                     {
-                        if (stack.Count == 1 && InPostfixRecord.Count == 0)
-                        {
-                            InPostfixRecord.Add($"-{number}");
-                            stack.Pop();
-                        }
-                        else if (stack.Count != 1 | stack.Peek() == "(" | stack.Peek() == ";")
-                        {
-                            InPostfixRecord.Add($"-{number}");
-                            stack.Pop();
-                        }
-                        else
-                            InPostfixRecord.Add(number);
+                        InPostfixRecord.Add($"-{number}");
+                        previous = $"-{number}";
                     }
                     else
+                    {
                         InPostfixRecord.Add(number);
+                        previous = number;
+                    }
+
+                    unaryMinus = false;
                 }
                 else if (infixRecord[i] == '!')
                 {
@@ -133,18 +134,18 @@ namespace Lab1
                 }
                 else if (infixRecord[i] == ';')
                 {
-                    //UNDONE: тут був while(true) до кінця if. НАшо його добавив непомню но здається він лишній тому видалив. Видалив тільки while і дужки решта не змінена
-
-                    //TODO: виключення. Зробити повыдомлення
-                    if (stack.Count == 0)
-                        throw new NotImplementedException();
-
-                    if (stack.Peek() == Convert.ToString('('))
+                    //while потрібен щоб викинути з треку всі символи до дужки(ну або щось таке, точно не памятаю) 
+                    while (true)
                     {
-                        //break;
+                        //TODO: виключення. Зробити повыдомлення
+                        if (stack.Count == 0)
+                            throw new NotImplementedException();
+
+                        if (stack.Peek() == Convert.ToString('('))
+                            break;
+                        else
+                            InPostfixRecord.Add(stack.Pop());
                     }
-                    else
-                        InPostfixRecord.Add(stack.Pop());
 
                     previous = ";";
                 }
@@ -155,6 +156,7 @@ namespace Lab1
                 }
                 else if (infixRecord[i] == ')')
                 {
+                    //така ж причина як і для ";"
                     while (true)
                     {
                         if (stack.Count == 0)
@@ -168,28 +170,44 @@ namespace Lab1
                         else
                             InPostfixRecord.Add(stack.Pop());
                     }
+                    previous= ")";
                 }
                 else if (infixRecord[i] == '+')
                 {
                     if (stack.Count > 0 && (
                         stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" |         //префіксна функція
                         stack.Peek() == "log" | stack.Peek() == "exp" |
-                        stack.Peek() == "+" |                                                                                   //такий же приорітет як і операція
+                        stack.Peek() == "+" | stack.Peek() == "-" |                                                                                   //такий же приорітет як і операція
                         stack.Peek() == "*" | stack.Peek() == "/" | stack.Peek() == "^"))                                       //вищій приорітет      
                         InPostfixRecord.Add(stack.Pop().ToString());
 
                     stack.Push(Convert.ToString(infixRecord[i]));
+                    previous = stack.Peek();
                 }
                 else if (infixRecord[i] == '-')
                 {
-                    if (stack.Count > 0 && (
-                        stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" |         //префіксна функція
-                        stack.Peek() == "log" | stack.Peek() == "exp" |
-                        stack.Peek() == "-" |                                                                                   //такий же приорітет як і операція
-                        stack.Peek() == "*" | stack.Peek() == "/" | stack.Peek() == "+" | stack.Peek() == "^"))                 //вищій приорітет      
-                        InPostfixRecord.Add(stack.Pop().ToString());
+                    if (previous == "(" | previous == ";" | previous == "")  //значить це унарний мінус і за ним мусить бути число
+                    {
+                        unaryMinus = true;
+                        previous = "-";
+                    }
+                    else if (previous == "cos" | previous == "sin" | previous == "tan" | previous == "ctg" | previous == "log" | previous == "exp")
+                    {
+                        Console.WriteLine("Ппомилка запису");
+                        return new List<string>();
+                    }
+                    else
+                    {
+                        if (stack.Count > 0 && (
+                            stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" |         //префіксна функція
+                            stack.Peek() == "log" | stack.Peek() == "exp" |
+                            stack.Peek() == "-" |                                                                                   //такий же приорітет як і операція
+                            stack.Peek() == "*" | stack.Peek() == "/" | stack.Peek() == "+" | stack.Peek() == "^"))                 //вищій приорітет      
+                            InPostfixRecord.Add(stack.Pop().ToString());
 
-                    stack.Push(Convert.ToString(infixRecord[i]));
+                        stack.Push(Convert.ToString(infixRecord[i]));
+                        previous = "-";
+                    }
                 }
                 else if (infixRecord[i] == '/' | infixRecord[i] == '*')
                 {
@@ -201,6 +219,7 @@ namespace Lab1
                         InPostfixRecord.Add(stack.Pop().ToString());
 
                     stack.Push(Convert.ToString(infixRecord[i]));
+                    previous = stack.Peek();
                 }
                 else if (infixRecord[i] == '^')
                 {
@@ -209,6 +228,7 @@ namespace Lab1
                         InPostfixRecord.Add(stack.Pop().ToString());
 
                     stack.Push(Convert.ToString(infixRecord[i]));
+                    previous = stack.Peek();
                 }
 
             }

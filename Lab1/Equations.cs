@@ -46,12 +46,12 @@ namespace Lab1
         /// Знаходить занчення функції при заданному х
         /// </summary>
         /// <param name="x"></param>
-        public void FindTheValueOfTheFunction(int x) 
+        public double FindTheValueOfTheFunction(double x) 
         {
             if(String.IsNullOrEmpty(Equation) | String.IsNullOrWhiteSpace(Equation)) 
             {
                 Console.WriteLine("Запишіть рівняння");
-                return;
+                return 0.0;
             }
 
             EquationPostfixRecord = ConvertToPostfixRecord(Equation);
@@ -64,7 +64,7 @@ namespace Lab1
                     InPostfixRecord[i] = $"-{x}";
             }
             
-            CalculateExpression(Equation);
+            return CalculateExpression(Equation);
         }
 
         
