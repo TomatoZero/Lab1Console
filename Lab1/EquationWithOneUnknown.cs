@@ -21,6 +21,8 @@ namespace Lab1
 
         }
         
+        public void NewMetod() { }
+
         private List<(double x1, double x2, bool isRoot)> SeparationOfRoots(double x1, double x2, double epsilont = 0.01, int numberOfInterval = 5) 
         {
             List<(double x1, double x2, bool isRoot)> intervals = new List<(double x1, double x2, bool isRoot)>();

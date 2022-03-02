@@ -7,10 +7,19 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            Expression expression = new Expression();
+            //Expression expression = new Expression();
+            //while (true) 
+            //{
+            //    Console.WriteLine(expression.CalculateExpression(expression.ConvertToPostfixRecord(Console.ReadLine())));
+            //}
+
+            Equations equations = new Equations();
+
             while (true) 
             {
-                Console.WriteLine(expression.CalculateExpression(expression.ConvertToPostfixRecord(Console.ReadLine())));
+                equations.AddEquation(Console.ReadLine());
+                double x = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine(equations.FindTheValueOfTheFunction(x));
             }
 
             /*
