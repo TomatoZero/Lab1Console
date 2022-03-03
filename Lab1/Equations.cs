@@ -15,18 +15,12 @@ namespace Lab1
         { 
             get => equation; 
             set 
-            { 
-                if(value != null && !String.IsNullOrWhiteSpace(value)) 
-                    equation = value;     
-            } }
-
-        public List<string> EquationPostfixRecord 
-        {
-            get => equationPostfixRecord;
-            set 
             {
-                if(value != null) 
-                    equationPostfixRecord = value;
+                if (value != null && !String.IsNullOrWhiteSpace(value))
+                { 
+                    equation = value; 
+                    equationPostfixRecord = ConvertToPostfixRecord(equation);
+                }
             } }
 
         public Equations() { }
@@ -41,7 +35,6 @@ namespace Lab1
             Equation = str;
         }
 
-
         /// <summary>
         /// Знаходить занчення функції при заданному х
         /// </summary>
@@ -54,19 +47,20 @@ namespace Lab1
                 return 0.0;
             }
 
-            EquationPostfixRecord = ConvertToPostfixRecord(Equation);
+            return FindTheValueOfTheFunction(x, equationPostfixRecord);
+        }
 
-            for(int i = 0; i < InPostfixRecord.Count; i++) 
+        public double FindTheValueOfTheFunction(double x, List<string> equationPostfix) 
+        {
+            for (int i = 0; i < InPostfixRecord.Count; i++)
             {
                 if (InPostfixRecord[i] == "x")
                     InPostfixRecord[i] = $"{x}";
                 else if (InPostfixRecord[i] == "-x")
                     InPostfixRecord[i] = $"-{x}";
             }
-            
+
             return CalculateExpression(Equation);
         }
-
-        
     }
 }
