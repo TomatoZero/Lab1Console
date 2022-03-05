@@ -23,6 +23,8 @@ namespace Lab1
                 }
             } }
 
+        public List<string> EquationInPostfixReccord { get => equationPostfixRecord; }
+
         public Equations() { }
 
         public Equations(string equation)
