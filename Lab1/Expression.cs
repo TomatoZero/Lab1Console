@@ -166,5 +166,6 @@ namespace Lab1
                 number *= i;
             return number;
         }
+
     }
 }

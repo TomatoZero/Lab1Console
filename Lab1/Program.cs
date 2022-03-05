@@ -7,21 +7,16 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            Expression expression = new Expression();
-            while (true) 
-            {
-                Console.WriteLine(expression.CalculateExpression(expression.ConvertToPostfixRecord(Console.ReadLine())));
-            }
+            //EquationWithOneUnknown equation = new EquationWithOneUnknown();
 
-            /*
-            Equations equations = new Equations();
+            //while (true) 
+            //{
+            //    double x1 = Convert.ToDouble(Console.ReadLine());
+            //    double x2 = Convert.ToDouble(Console.ReadLine());
+            //    Console.WriteLine(String.Join(' ', equation.GetArrPoints(x1,x2,10)));
+            //}
 
-            while (true) 
-            {
-                equations.AddEquation(Console.ReadLine());
-                double x = Convert.ToDouble(Console.ReadLine());
-                Console.WriteLine(equations.FindTheValueOfTheFunction(x));
-            }*/
+
         }
 
     }
