@@ -126,7 +126,7 @@ namespace Lab1
                     InPostfixRecord.Add(Convert.ToString('!'));
                     previous = "!";
                 }
-                else if (infixRecord[i] == 't' | infixRecord[i] == 'c' | infixRecord[i] == 's' | infixRecord[i] == 'l' | infixRecord[i] == 'e')
+                else if (infixRecord[i] == 't' | infixRecord[i] == 'c' | infixRecord[i] == 's' | infixRecord[i] == 'l' | infixRecord[i] == 'e' | infixRecord[i] == 'a')
                 {
                     stack.Push(Convert.ToString($"{infixRecord[i]}{infixRecord[i + 1]}{infixRecord[i + 2]}"));
                     previous = stack.Peek();
@@ -176,7 +176,7 @@ namespace Lab1
                 {
                     if (stack.Count > 0 && (
                         stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" |         //префіксна функція
-                        stack.Peek() == "log" | stack.Peek() == "exp" |
+                        stack.Peek() == "log" | stack.Peek() == "exp" | stack.Peek() == "abs" |
                         stack.Peek() == "+" | stack.Peek() == "-" |                                                                                   //такий же приорітет як і операція
                         stack.Peek() == "*" | stack.Peek() == "/" | stack.Peek() == "^"))                                       //вищій приорітет      
                         InPostfixRecord.Add(stack.Pop().ToString());
@@ -191,7 +191,9 @@ namespace Lab1
                         unaryMinus = true;
                         previous = "-";
                     }
-                    else if (previous == "cos" | previous == "sin" | previous == "tan" | previous == "ctg" | previous == "log" | previous == "exp")
+                    else if (previous == "cos" | previous == "sin" | previous == "tan" | previous == "ctg" | 
+                        previous == "log" | previous == "exp" | 
+                        stack.Peek() == "abs")
                     {
                         Console.WriteLine("Ппомилка запису");
                         return new List<string>();
@@ -200,7 +202,7 @@ namespace Lab1
                     {
                         if (stack.Count > 0 && (
                             stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" |         //префіксна функція
-                            stack.Peek() == "log" | stack.Peek() == "exp" |
+                            stack.Peek() == "log" | stack.Peek() == "exp" | stack.Peek() == "abs" |
                             stack.Peek() == "-" |                                                                                   //такий же приорітет як і операція
                             stack.Peek() == "*" | stack.Peek() == "/" | stack.Peek() == "+" | stack.Peek() == "^"))                 //вищій приорітет      
                             InPostfixRecord.Add(stack.Pop().ToString());
@@ -213,7 +215,7 @@ namespace Lab1
                 {
                     if (stack.Count > 0 && (
                         stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" |         //префіксна функція
-                        stack.Peek() == "log" | stack.Peek() == "exp" |
+                        stack.Peek() == "log" | stack.Peek() == "exp" | stack.Peek() == "abs" |
                         stack.Peek() == "*" | stack.Peek() == "/" |                                                             //такий же приорітет як і операція
                         stack.Peek() == "^"))                                                                                   //вищій приорітет
                         InPostfixRecord.Add(stack.Pop().ToString());
@@ -224,7 +226,9 @@ namespace Lab1
                 else if (infixRecord[i] == '^')
                 {
                     if (stack.Count > 0 && (
-                        stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" | stack.Peek() == "log" | stack.Peek() == "exp"))         //префіксна функція
+                        stack.Peek() == "cos" | stack.Peek() == "sin" | stack.Peek() == "tan" | stack.Peek() == "ctg" | //префіксна функція
+                        stack.Peek() == "log" | stack.Peek() == "exp" |
+                        stack.Peek() == "abs"))         
                         InPostfixRecord.Add(stack.Pop().ToString());
 
                     stack.Push(Convert.ToString(infixRecord[i]));
@@ -239,7 +243,13 @@ namespace Lab1
             }
 
             Console.WriteLine(String.Join(' ', InPostfixRecord));
-            return InPostfixRecord;
+
+            List<string> list = new List<string>();
+
+            foreach(string item in InPostfixRecord) 
+                list.Add(item);
+
+            return list;
         }
 
 
