@@ -129,6 +129,9 @@ namespace Lab1
                         case "exp":
                             stack.Push($"{Math.Exp(b)}");
                             break;
+                        case "abs":
+                            stack.Push($"{Math.Abs(b)}");
+                            break;
                         default:
                             stack.Push("Некоректні данні");
                             Continue = true;
