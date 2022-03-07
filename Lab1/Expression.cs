@@ -88,31 +88,16 @@ namespace Lab1
                             stack.Push($"{Factorial(Convert.ToInt32(b))}");
                             break;
                         case "cos":
-                            stack.Push($"{Math.Cos(b * Math.PI / 180)}");
+                            stack.Push($"{Math.Cos(b)}");
                             break;
                         case "sin":
-                            stack.Push($"{Math.Sin(b * Math.PI / 180)}");
+                            stack.Push($"{Math.Sin(b)}");
                             break;
                         case "tan":
-
-                            if (b == 90)
-                            {
-                                Console.WriteLine("При b = 90 функцыя невизначенна");
-                                Continue = false;
-                                break;
-                            }
-
-                            stack.Push($"{Math.Sin(b * Math.PI / 180) / Math.Cos(b * Math.PI / 180)}");
+                            stack.Push($"{Math.Sin(b) / Math.Cos(b)}");
                             break;
                         case "ctg":
-
-                            if (b == 90)
-                            {
-                                Console.WriteLine("При b=90 функцыя невизначенна");
-                                Continue = false;
-                                break;
-                            }
-                            stack.Push($"{Math.Cos(b * Math.PI / 180) / Math.Sin(b * Math.PI / 180)}");
+                            stack.Push($"{Math.Cos(b) / Math.Sin(b)}");
                             break;
                         case "log":
 
