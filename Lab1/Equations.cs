@@ -8,33 +8,12 @@ namespace Lab1
 {
     internal class Equations : Expression
     {
-        private string equation;
-        private List<string> equationPostfixRecord;
-
-        public string Equation 
-        { 
-            get => equation; 
-            set 
-            {
-                if (value != null && !String.IsNullOrWhiteSpace(value))
-                { 
-                    equation = value; 
-                    equationPostfixRecord = ConvertToPostfixRecord(equation);
-                }
-            } }
-
-        public List<string> EquationInPostfixReccord { get => equationPostfixRecord; }
-
         public Equations() { }
-
-        public Equations(string equation)
-        {
-            Equation = equation;
-        }
+        public Equations(string equation): base(equation) { }
 
         public void AddEquation(string str) 
         {
-            Equation = str;
+            InfixRecord = str;
         }
 
         /// <summary>
@@ -43,17 +22,18 @@ namespace Lab1
         /// <param name="x"></param>
         public double FindTheValueOfTheFunction(double x) 
         {
-            if(String.IsNullOrEmpty(Equation) | String.IsNullOrWhiteSpace(Equation)) 
+            if(String.IsNullOrEmpty(InfixRecord) | String.IsNullOrWhiteSpace(InfixRecord)) 
             {
                 Console.WriteLine("Запишіть рівняння");
                 return 0.0;
             }
 
-            return FindTheValueOfTheFunction(x, equationPostfixRecord);
+            return FindTheValueOfTheFunction(x, InPostfixRecord);
         }
 
         public double FindTheValueOfTheFunction(double x, List<string> equationPostfix) 
         {
+            InPostfixRecord = new List<string>(equationPostfix);
             for (int i = 0; i < InPostfixRecord.Count; i++)
             {
                 if (InPostfixRecord[i] == "x")
@@ -62,7 +42,7 @@ namespace Lab1
                     InPostfixRecord[i] = $"-{x}";
             }
 
-            return CalculateExpression(Equation);
+            return CalculateExpression(InPostfixRecord);
         }
     }
 }

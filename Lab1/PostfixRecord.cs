@@ -193,7 +193,7 @@ namespace Lab1
                     }
                     else if (previous == "cos" | previous == "sin" | previous == "tan" | previous == "ctg" | 
                         previous == "log" | previous == "exp" | 
-                        stack.Peek() == "abs")
+                        previous == "abs")
                     {
                         Console.WriteLine("Ппомилка запису");
                         return new List<string>();
